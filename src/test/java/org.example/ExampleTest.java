@@ -25,4 +25,17 @@ public class ExampleTest {
                 body("id", notNullValue()).log().all();
     }
 
+    @Test
+    public void testGetMethod() {
+        given().
+                urlEncodingEnabled(false).
+                accept("application/json").
+                when().
+                get(""+"/{transaction_id}",27).
+                then().
+                statusCode(200).log().all();
+    }
+
+
+
 }

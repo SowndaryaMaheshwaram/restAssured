@@ -5,6 +5,7 @@ import org.junit.Test;
 
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class ExampleTest {
@@ -16,9 +17,8 @@ public class ExampleTest {
     @Test
     public void testPostMethod() {
 
-
-       String payload = "{\"coin1\":\"ABC\"," +
-                "\"coin2\":\"XYZ\"," +
+       String payload = "{\"coin1\":\"INR\"," +
+                "\"coin2\":\"USDT\"," +
                 "\"coin1Amount\":10," +
                 "\"coin2Amount\":1}";
 
@@ -37,19 +37,18 @@ public class ExampleTest {
        }
 
     }
-
     @Test
     public void testGetMethod() {
-        System.out.println("==========" + TRANSACTION + ID_FROM_POST_TRANSACTION);
         given().
                 urlEncodingEnabled(false).
                 accept("application/json").
-                when().
+        when().
                 get(BASE_URL+TRANSACTION+"/{transaction_id}",ID_FROM_POST_TRANSACTION).
-                then().
-                statusCode(200).log().all();
+        then().
+                statusCode(200).
+                body("sentCoin",equalTo("INR")).
+                body("receivedCoin",equalTo("USDT")).
+                body("sentCoinAmount",equalTo(10)).
+                body("receivedCoinAmount",equalTo(1));
     }
-
-
-
 }

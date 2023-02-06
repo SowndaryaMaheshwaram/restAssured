@@ -4,6 +4,8 @@ import io.restassured.response.Response;
 import org.junit.Test;
 
 
+import java.io.File;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
@@ -17,10 +19,7 @@ public class ExampleTest {
     @Test
     public void testPostMethod() {
 
-       String payload = "{\"coin1\":\"INR\"," +
-                "\"coin2\":\"USDT\"," +
-                "\"coin1Amount\":10," +
-                "\"coin2Amount\":1}";
+       File payload = new File("src/main/resources/transaction_testdata.json");
 
        Response response = given().urlEncodingEnabled(false).
                 contentType("application/json").
@@ -48,7 +47,7 @@ public class ExampleTest {
                 statusCode(200).
                 body("sentCoin",equalTo("INR")).
                 body("receivedCoin",equalTo("USDT")).
-                body("sentCoinAmount",equalTo(10)).
-                body("receivedCoinAmount",equalTo(1));
+                body("sentCoinAmount",equalTo(20)).
+                body("receivedCoinAmount",equalTo(2));
     }
 }
